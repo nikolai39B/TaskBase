@@ -1,18 +1,18 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
-import MyPlugin from "./main";
+import TaskBase from "./main";
 
-export interface MyPluginSettings {
-	mySetting: string;
+export interface TaskBaseSettings {
+	taskLocation: string;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
+export const DEFAULT_SETTINGS: TaskBaseSettings = {
+	taskLocation: ""
 }
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+export class TaskBaseSettingsTab extends PluginSettingTab {
+	plugin: TaskBase;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: TaskBase) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -23,13 +23,13 @@ export class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Settings #1')
-			.setDesc('It\'s a secret')
+			.setName("Task Location")
+			.setDesc("Folder which contains the tasks")
 			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
+				.setPlaceholder("Folder")
+				.setValue(this.plugin.settings.taskLocation)
 				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
+					this.plugin.settings.taskLocation = value;
 					await this.plugin.saveSettings();
 				}));
 	}
