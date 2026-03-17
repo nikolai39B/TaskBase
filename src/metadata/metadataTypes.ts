@@ -1,18 +1,24 @@
-// Branded date types
-export type DateOnly = Date & { readonly _brand: 'DateOnly' };
-export type DateTime = Date & { readonly _brand: 'DateTime' };
+//-- PRIMITIVES
+export type PrimitivePropertyValue =
+    | boolean
+    | string
+    | string[]
+    | number
+    | null;
 
-// Helper functions to create branded dates
-export function toDateOnly(date: Date): DateOnly {
-    return date as DateOnly;
+export interface ComplexPropertyValue<TValue, TSerialized extends PrimitivePropertyValue> {
+    serialize:   () => TSerialized;
+    deserialize: () => TValue | undefined;
 }
 
-export function toDateTime(date: Date): DateTime {
-    return date as DateTime;
-}
+export type PropertyValue =
+    | PrimitivePropertyValue
+    | ComplexPropertyValue<unknown, PrimitivePropertyValue>;
+
+
 
 // Property value type
-export type PropertyValue = boolean | DateOnly | DateTime | string | string[] | number;
+//export type PropertyValue = boolean | DateOnly | DateTime | string | string[] | number;
 
 // Edit behavior enum
 export enum EditBehavior {
