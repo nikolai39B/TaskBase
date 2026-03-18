@@ -5,29 +5,61 @@ import {DEFAULT_SETTINGS, TaskBaseSettings, TaskBaseSettingsTab} from "./setting
 export default class TaskBase extends Plugin {
 	settings: TaskBaseSettings;
 
+  async loadInternal() {
+    try {
+      await this.loadSettings();
+
+      // This adds a settings tab so the user can configure various aspects of the plugin
+      this.addSettingTab(new TaskBaseSettingsTab(this.app, this));
+
+      // Update the current task
+      this.addCommand({
+        id: 'update-task',
+        name: 'Update Task',
+        callback: () => {
+          console.log("TODO update task");
+        }
+      });
+
+      // Update all tasks in the vault
+      this.addCommand({
+        id: 'update-all-tasks',
+        name: 'Update All Tasks',
+        callback: () => {
+          new UpdateAllTasksModal(this.app).open();
+        }
+      });
+      
+      // Notify load success
+      this.app.workspace.trigger("task-base:loaded");
+    } catch (e) {
+      // Notify load failure
+      this.app.workspace.trigger("task-base:loadFailed");
+    }
+
+    console.log("TaskBase onload() complete");
+  }
+
 	async onload() {
-		await this.loadSettings();
+    console.log("TaskBase onload() begin")
 
-		// Update the current task
-		this.addCommand({
-			id: 'update-task',
-			name: 'Update Task',
-			callback: () => {
-				console.log("TODO update task");
-			}
-		});
+    const pb = (this.app as any).plugins.plugins["programmatic-bases"];
+    if (pb) {
+      console.log("from TB: programmatic bases already loaded");
+      await this.loadInternal();
+    } else {
+      console.log("from TB: waiting for programmatic bases to load");
+      this.registerEvent(
+        (this.app as any).workspace.on("programmatic-bases:loaded", () => {
+          console.log("from TB: programmatic bases loaded now");
+          this.loadInternal();
+        })
+      );
+    }
 
-		// Update all tasks in the vault
-		this.addCommand({
-			id: 'update-all-tasks',
-			name: 'Update All Tasks',
-			callback: () => {
-				new UpdateAllTasksModal(this.app).open();
-			}
-		});
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new TaskBaseSettingsTab(this.app, this));
+    this.app.workspace.onLayoutReady(() => {
+      console.log("layout ready");
+    })
 	}
 
 	onunload() {
