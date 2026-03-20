@@ -1,11 +1,21 @@
-import {App, Editor, MarkdownView, Modal, Notice, Plugin, Setting} from 'obsidian';
-import {DEFAULT_SETTINGS, TaskBaseSettings, TaskBaseSettingsTab} from "./settings";
-
+import { App, Modal, Notice, Plugin } from 'obsidian';
+import { DEFAULT_SETTINGS, TaskBaseSettings, TaskBaseSettingsTab } from "./settings";
+import { PluginDependencyManager } from '../../pluginUtilsCommon/dependency';
 
 export default class TaskBase extends Plugin {
-	settings: TaskBaseSettings;
 
-  async loadInternal() {
+	async onload() {
+    console.log("TaskBase onload() begin")
+
+    // Load once dependencies are loaded
+    this.dependencyManager = new PluginDependencyManager(this);
+    this.dependencyManager.addDependency("programmatic-bases", "programmatic-bases:loaded");
+    await this.dependencyManager.registerPluginLoader(() => this.loadPlugin() );
+
+    console.log("TaskBase onload() complete");
+	}
+
+  private async loadPlugin() {
     try {
       await this.loadSettings();
 
@@ -32,35 +42,15 @@ export default class TaskBase extends Plugin {
       
       // Notify load success
       this.app.workspace.trigger("task-base:loaded");
+
+      console.log("TaskBase loaded");
     } catch (e) {
       // Notify load failure
+      const error = e instanceof Error ? e : new Error(String(e));
       this.app.workspace.trigger("task-base:loadFailed");
+      throw error;
     }
-
-    console.log("TaskBase onload() complete");
   }
-
-	async onload() {
-    console.log("TaskBase onload() begin")
-
-    const pb = (this.app as any).plugins.plugins["programmatic-bases"];
-    if (pb) {
-      console.log("from TB: programmatic bases already loaded");
-      await this.loadInternal();
-    } else {
-      console.log("from TB: waiting for programmatic bases to load");
-      this.registerEvent(
-        (this.app as any).workspace.on("programmatic-bases:loaded", () => {
-          console.log("from TB: programmatic bases loaded now");
-          this.loadInternal();
-        })
-      );
-    }
-
-    this.app.workspace.onLayoutReady(() => {
-      console.log("layout ready");
-    })
-	}
 
 	onunload() {
 	}
@@ -72,6 +62,11 @@ export default class TaskBase extends Plugin {
 	async saveSettings() {
 		await this.saveData(this.settings);
 	}
+
+
+  //-- ATTRIBUTES
+  private dependencyManager: PluginDependencyManager;
+	settings: TaskBaseSettings;
 }
 
 class UpdateAllTasksModal extends Modal {
