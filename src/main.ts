@@ -1,6 +1,6 @@
 import { App, Modal, Notice, Plugin } from 'obsidian';
 import { DEFAULT_SETTINGS, TaskBaseSettings, TaskBaseSettingsTab } from "./settings";
-import { PluginDependencyManager } from '../../pluginUtilsCommon/dependency';
+import { PluginDependencyManager } from '../../pluginUtilsCommon/src/dependency';
 
 export default class TaskBase extends Plugin {
 
