@@ -1,11 +1,5 @@
 // types.d.ts
-//import { ProgrammaticBasesAPI } from '../src/api';
-
-//declare global {
-//  interface Window {
-//    //programmaticBases?: ProgrammaticBasesAPI;
-//  }
-//}
+export {};
 
 declare module "obsidian" {
   interface Workspace {
