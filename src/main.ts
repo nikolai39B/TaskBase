@@ -1,6 +1,21 @@
 import { App, Modal, Notice, Plugin } from 'obsidian';
 import { DEFAULT_SETTINGS, TaskBaseSettings, TaskBaseSettingsTab } from "./settings";
 import { PluginDependencyManager } from '../../pluginUtilsCommon/src/dependency';
+import inThisFolder from './templates/components/filter/inThisFolder.yaml';
+import isTask from './templates/components/filter/isTask.yaml';
+import notTemplate from './templates/components/filter/notTemplate.yaml';
+import pastWeek from './templates/components/filter/pastWeek.yaml';
+import category from './templates/components/formula/category.yaml';
+import color from './templates/components/formula/color.yaml';
+import effort from './templates/components/formula/effort.yaml';
+import links from './templates/components/formula/links.yaml';
+import resolved from './templates/components/formula/resolved.yaml';
+import taskProperties from './templates/components/propertyDisplay/taskProperties.yaml';
+import due from './templates/components/view/due.yaml';
+import focused from './templates/components/view/focused.yaml';
+import resolvedView from './templates/components/view/resolved.yaml';
+import unresolved from './templates/components/view/unresolved.yaml';
+import dashboard from './templates/bases/dashboard.yaml';
 
 export default class TaskBase extends Plugin {
 
@@ -18,6 +33,30 @@ export default class TaskBase extends Plugin {
   private async loadPlugin() {
     try {
       await this.loadSettings();
+
+      // Register templates and components with programmatic-bases
+      window.programmaticBases.registerSource({
+        name: 'task-base',
+        components: {
+          'filter/inThisFolder': inThisFolder,
+          'filter/isTask': isTask,
+          'filter/notTemplate': notTemplate,
+          'filter/pastWeek': pastWeek,
+          'formula/category': category,
+          'formula/color': color,
+          'formula/effort': effort,
+          'formula/links': links,
+          'formula/resolved': resolved,
+          'propertyDisplay/taskProperties': taskProperties,
+          'view/due': due,
+          'view/focused': focused,
+          'view/resolved': resolvedView,
+          'view/unresolved': unresolved,
+        },
+        templates: {
+          'dashboard': dashboard,
+        }
+      });
 
       // This adds a settings tab so the user can configure various aspects of the plugin
       this.addSettingTab(new TaskBaseSettingsTab(this.app, this));

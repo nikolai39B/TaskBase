@@ -1,0 +1,8 @@
+or:
+  - file.hasLink(link((this.file.properties["date"] + duration("0d")).format("MMM DD, YYYY")))
+  - file.hasLink(link((this.file.properties["date"] + duration("1d")).format("MMM DD, YYYY")))
+  - file.hasLink(link((this.file.properties["date"] + duration("2d")).format("MMM DD, YYYY")))
+  - file.hasLink(link((this.file.properties["date"] + duration("3d")).format("MMM DD, YYYY")))
+  - file.hasLink(link((this.file.properties["date"] + duration("4d")).format("MMM DD, YYYY")))
+  - file.hasLink(link((this.file.properties["date"] + duration("5d")).format("MMM DD, YYYY")))
+  - file.hasLink(link((this.file.properties["date"] + duration("6d")).format("MMM DD, YYYY")))

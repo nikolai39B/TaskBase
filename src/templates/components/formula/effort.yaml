@@ -1,0 +1,4 @@
+|-
+  if(file.properties["Effort (Actual)"].isEmpty(), "--", file.properties["Effort (Actual)"].toString()) +
+  " / " +
+  if(file.properties["Effort (Projected)"].isEmpty(), "--", file.properties["Effort (Projected)"].toString())

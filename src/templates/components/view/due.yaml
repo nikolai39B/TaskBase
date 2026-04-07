@@ -1,0 +1,26 @@
+type: cards
+name: Due
+filters:
+  and:
+    - _resolved == false
+    - or:
+        - note["due_date"] <= today() + duration("7d")
+groupBy:
+  property: due_date
+  direction: ASC
+order:
+  - file.name
+  - description
+  - _formatted_effort
+  - due_date
+  - formula.Links
+  - tags
+  - _location
+sort:
+  - property: priority
+    direction: ASC
+  - property: file.folder
+    direction: ASC
+cardSize: 300
+image: formula.Color
+imageAspectRatio: 0.07

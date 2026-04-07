@@ -1,0 +1,3 @@
+|-
+  if(file.properties["Priority"] == 1, "#ffabab",
+  if(file.properties["Priority"] == 2, "#ace7ff", "#aff8db"))

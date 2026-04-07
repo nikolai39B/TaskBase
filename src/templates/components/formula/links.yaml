@@ -1,0 +1,5 @@
+|-
+  list(file.properties["TAC / Polarion"]).map(
+  if(value.toString().startsWith("PR"), link("https://tac.industrysoftware.automation.siemens.com/prs/"+value.toString().replace("PR","")+"/overview", value),
+  if(value.toString().startsWith("PES"), link("https://mypolarion.industrysoftware.automation.siemens.com/polarion/#/project/PES2/workitem?id="+value.toString(), value),
+  value)))

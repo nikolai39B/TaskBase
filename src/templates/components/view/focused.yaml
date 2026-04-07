@@ -1,0 +1,30 @@
+type: cards
+name: Focused
+filters:
+  and:
+    - _resolved == false
+    - or:
+        - status == "in_progress"
+        - note["due_date"] <= today() + duration("7d")
+        - priority == 1
+groupBy:
+  property: status
+  direction: ASC
+order:
+  - file.name
+  - description
+  - _formatted_effort
+  - due_date
+  - formula.Links
+  - tags
+  - _location
+sort:
+  - property: due_date
+    direction: ASC
+  - property: priority
+    direction: ASC
+  - property: file.folder
+    direction: ASC
+cardSize: 300
+image: formula.Color
+imageAspectRatio: 0.07

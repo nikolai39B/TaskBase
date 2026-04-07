@@ -1,0 +1,26 @@
+type: table
+name: Unresolved
+filters:
+  and:
+    - _resolved == false
+groupBy:
+  property: due_date
+  direction: ASC
+order:
+  - file.name
+  - priority
+  - status
+  - _formatted_effort
+  - _external_links
+  - description
+sort:
+  - property: priority
+    direction: ASC
+  - property: file.folder
+    direction: ASC
+summaries: {}
+columnSize:
+  file.name: 268
+  note.priority: 57
+  note.status: 116
+rowHeight: medium

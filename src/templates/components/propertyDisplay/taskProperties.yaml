@@ -1,0 +1,10 @@
+file.name:
+    displayName: Task
+note.effort_actual:
+  displayName: Eff. (A)
+note.effort_projected:
+  displayName: Eff. (P)
+note.priority:
+  displayName: P
+note._formatted_effort:
+  displayName: Effort

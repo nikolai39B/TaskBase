@@ -1,0 +1,23 @@
+filters:
+  and:
+    - !sub task-base:filter/inThisFolder
+    - !sub task-base:filter/isTask
+    - !sub task-base:filter/notTemplate
+formulas:
+  Color: !sub task-base:formula/color
+properties:
+  file.name:
+    displayName: Task
+  note.effort_actual:
+    displayName: Eff. (A)
+  note.effort_projected:
+    displayName: Eff. (P)
+  note.priority:
+    displayName: P
+  note._formatted_effort:
+    displayName: Effort
+views:
+  - !sub task-base:view/focused
+  - !sub task-base:view/due
+  - !sub task-base:view/unresolved
+  - !sub task-base:view/resolved

@@ -1,0 +1,28 @@
+type: table
+name: Resolved
+filters:
+  and:
+    - _resolved == true
+groupBy:
+  property: _resolution_date
+  direction: DESC
+order:
+  - file.name
+  - priority
+  - status
+  - effort_actual
+  - effort_projected
+  - _external_links
+  - description
+sort:
+  - property: priority
+    direction: ASC
+  - property: file.folder
+    direction: ASC
+summaries: {}
+columnSize:
+  file.name: 268
+  note.priority: 57
+  note.effort_actual: 77
+  note.effort_projected: 76
+rowHeight: medium
