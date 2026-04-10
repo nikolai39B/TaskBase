@@ -1,5 +1,6 @@
-import { AbstractInputSuggest, App, PluginSettingTab, Setting, TFolder } from "obsidian";
+import { App, PluginSettingTab, Setting, TFolder } from "obsidian";
 import TaskBase from "./main";
+import { FolderSuggest } from 'ui/folderSuggest';
 
 export interface TaskBaseSettings {
   taskLocation: string;
@@ -7,29 +8,6 @@ export interface TaskBaseSettings {
 
 export const DEFAULT_SETTINGS: TaskBaseSettings = {
   taskLocation: ""
-}
-
-/** Suggests vault folders as the user types into an input. */
-class FolderSuggest extends AbstractInputSuggest<TFolder> {
-  constructor(app: App, private inputEl: HTMLInputElement) {
-    super(app, inputEl);
-  }
-
-  getSuggestions(query: string): TFolder[] {
-    return this.app.vault.getAllFolders()
-      .filter(f => f.path.toLowerCase().includes(query.toLowerCase()))
-      .sort((a, b) => a.path.localeCompare(b.path));
-  }
-
-  renderSuggestion(folder: TFolder, el: HTMLElement) {
-    el.setText(folder.path);
-  }
-
-  selectSuggestion(folder: TFolder) {
-    this.inputEl.value = folder.path;
-    this.inputEl.trigger('input');
-    this.close();
-  }
 }
 
 /**

@@ -1,12 +1,27 @@
 import { EditBehavior, Property } from './metadataTypes';
 
-// Define the list of priority values
+// TODO:
+//   wire the displays into the UI 
+
+// Define the list of priority values (snake_case for file properties) and their display labels
 export const PRIORITY_VALUES = ['critical', 'high', 'medium', 'low'] as const;
 export type Priority = typeof PRIORITY_VALUES[number];
+export const PRIORITY_DISPLAY: Record<Priority, string> = {
+  critical: 'Critical',
+  high:     'High',
+  medium:   'Medium',
+  low:      'Low',
+};
 
-// Define the list of status values
+// Define the list of status values (snake_case for file properties) and their display labels
 export const STATUS_VALUES = ['not_started', 'in_progress', 'complete', 'dropped'] as const;
 export type Status = typeof STATUS_VALUES[number];
+export const STATUS_DISPLAY: Record<Status, string> = {
+  not_started: 'Not Started',
+  in_progress: 'In Progress',
+  complete:    'Complete',
+  dropped:     'Dropped',
+};
 
 // Define which statuses denote the task as "resolved"
 export const RESOLVED_STATUSES = ['complete', 'dropped'] as const;

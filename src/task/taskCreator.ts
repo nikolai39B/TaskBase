@@ -3,6 +3,7 @@ import TaskBase from 'main';
 import { Task } from 'task/task';
 import { DatePropertyValue } from 'metadata/dateProperty';
 import { PRIORITY_VALUES, Priority, STATUS_VALUES, Status } from 'metadata/taskProperties';
+import { FolderSuggest } from 'ui/folderSuggest';
 
 const INVALID_FILENAME_CHARS = /[*"\\/<>:|?#\^[\]]/;
 
@@ -58,6 +59,7 @@ export class TaskCreatorModal extends Modal {
     categorySetting.addText(text => {
       this.categoryInputEl = text.inputEl;
       text.inputEl.style.width = '100%';
+      new FolderSuggest(this.app, text.inputEl, this.plugin.settings.taskLocation);
       text.setPlaceholder('projects/plugin-development')
         .onChange(value => {
           this.category = value.trim()
@@ -89,12 +91,12 @@ export class TaskCreatorModal extends Modal {
     // Add due date option
     new Setting(contentEl)
       .setName('Due date')
-      .addText(text => text
-        .setPlaceholder('YYYY-MM-DD')
-        .onChange(value => {
-          const trimmed = value.trim();
-          this.due_date = trimmed ? new DatePropertyValue(trimmed) : null;
-        }));
+      .addText(text => {
+        text.inputEl.type = 'date';
+        text.onChange(value => {
+          this.due_date = value ? new DatePropertyValue(value) : null;
+        });
+      });
 
     // Add create button (initially disabled until valid)
     new Setting(contentEl)
