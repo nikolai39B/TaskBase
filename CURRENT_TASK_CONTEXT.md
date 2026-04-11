@@ -37,20 +37,9 @@ A file is a task if it lives under `taskLocation` and has a `status` property.
   - Error display: red border + error text under each field; create button disabled while invalid
   - Category autocomplete via `FolderSuggest` scoped to `taskLocation` (relative paths)
 - **FolderSuggest** (`src/ui/folderSuggest.ts`): `AbstractInputSuggest<TFolder>` with optional `basePath` — filters to subfolders and returns relative paths
-- **Templates**: YAML templates bundled via esbuild YAML loader, registered with `programmatic-bases` via `window.programmaticBases.registerSource()`
-
----
-
-## Next steps
-
-1. **`TaskManager`** — `src/task/taskManager.ts`
-   - Listens to `app.metadataCache.on('changed', ...)`
-   - When a task file changes: deserializes to `Task`, writes back `resolved` auto-property via `processFrontMatter`
-   - Use `plugin.registerEvent()` for automatic cleanup on unload
-
-2. **Wire `TaskManager` into `main.ts`** — instantiate and call `register()` inside `loadPlugin()`
-
-3. **Cleanup** — remove commented-out `update-task`, `update-all-tasks`, and `UpdateAllTasksModal` from `main.ts`
+- **TaskManager** (`src/task/taskManager.ts`): listens to `metadataCache.on('changed')`, auto-writes `resolved` frontmatter when `status` changes; infinite-loop guarded by early return if `resolved` already correct
+- **Templates**: YAML templates bundled via esbuild YAML loader, registered with `programmatic-bases` via `window.programmaticBases.registerSource()` in `src/templates/templateSource.ts`
+- **Tests**: full vitest suite covering `Task`, `DatePropertyValue`, task properties constants, `FolderSuggest`, `TaskCreatorModal`, and `TaskManager`
 
 ---
 

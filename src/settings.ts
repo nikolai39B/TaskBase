@@ -23,24 +23,30 @@ function addFolderInput(
   getValue: () => string,
   onChange: (value: string) => Promise<void>,
 ) {
+  // Make the control wrap to its own full-width line below the label
   setting.settingEl.style.flexWrap = 'wrap';
   setting.controlEl.style.width = '100%';
 
+  // Set the setting text
   setting.addText(text => {
+    // Configure the folder input as a full line input under the description text
     text.inputEl.style.width = '100%';
     text.setPlaceholder(placeholder).setValue(getValue());
 
+    // Attach a folder suggest component to autofill folders based on the user's query
     new FolderSuggest(app, text.inputEl);
 
+    // Define methods to validate the input and adjust the box color
     const isValid = (value: string) =>
       !value || app.vault.getFolderByPath(value) instanceof TFolder;
-
     const setError = (hasError: boolean) => {
       text.inputEl.style.borderColor = hasError ? 'var(--color-red)' : '';
     };
 
+    // When the text is defocused, validate
     text.inputEl.addEventListener('blur', () => setError(!isValid(text.inputEl.value.trim())));
 
+    // On text change, validate and set the value
     text.onChange(async (value) => {
       await onChange(value.trim());
       if (isValid(value.trim())) setError(false);
